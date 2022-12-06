@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_development_assignment/EpizodesPage.dart';
+import 'package:flutter_development_assignment/episodes_page.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 void main() {
-  runApp(const MyApp());
+  final HttpLink httpLink = HttpLink('https://rickandmortyapi.com/graphql');
+
+  ValueNotifier<GraphQLClient> client = ValueNotifier(
+    GraphQLClient(
+      link: httpLink,
+      cache: GraphQLCache(store: InMemoryStore()),
+    ),
+  );
+
+  var app = GraphQLProvider(
+    client: client,
+    child: const MyApp(),
+  );
+  runApp(app);
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Rick and Morty',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.grey,
       ),
       home: const EpisodesPage(),
     );

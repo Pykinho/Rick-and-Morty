@@ -1,8 +1,6 @@
-class Queries {
-  String fetchEpisodes() {
-    return '''
-      query episodes{
-        episodes{
+const String fetchEpisodes = r'''
+    query episodes($nPage: Int){
+        episodes(page: $nPage){
           info{
             count
             pages
@@ -19,12 +17,10 @@ class Queries {
         }
       }
       ''';
-  }
 
-  String fetchCharacters(List ids) {
-    return '''
-      query characters{
-        charactersByIds(ids:$ids) 
+const String fetchCharacters = r'''
+      query characters($characterIds:List){
+        charactersByIds(ids:$characterIds) 
             {
               name
               status
@@ -36,5 +32,3 @@ class Queries {
             }
         }
     ''';
-  }
-}
