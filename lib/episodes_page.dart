@@ -11,13 +11,12 @@ class EpisodesPage extends StatefulWidget {
 }
 
 class _EpisodesPageState extends State<EpisodesPage> {
-  //final Queries _query = Queries();
   final ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Rick and Morty'),
+        title: const Text('Rick and Morty episodes'),
       ),
       body: Query(
           options: QueryOptions(
@@ -58,62 +57,58 @@ class _EpisodesPageState extends State<EpisodesPage> {
                 return fetchMoreResultData;
               },
             );
-            _scrollController
-              ..addListener(() {
-                if (_scrollController.position.pixels ==
-                    _scrollController.position.maxScrollExtent) {
-                  if (!result.isLoading && nextPageNo != null) {
-                    fetchMore!(opts);
-                  }
-                }
-              });
+
             return Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Episodes',
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                ),
                 Expanded(
-                  child: ListView(
-                    controller: _scrollController,
-                    children: <Widget>[
-                      for (var episode in episodesList)
-                        Card(
-                          child: ListTile(
-                            title: Text(
-                              episode['name'],
-                            ),
-                            subtitle: Text(episode['episode']),
-                            onTap: () {
-                              final List<dynamic> charactersList = [
-                                for (var character in episode['characters'])
-                                  character['id']
-                              ];
-
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CharactersPage(
-                                    episode: episode['episode'],
-                                    //characters: episode['characters'],
-                                    characters: charactersList,
+                  child: NotificationListener(
+                    onNotification: (t) {
+                      if (t is ScrollEndNotification &&
+                          _scrollController.position.pixels >=
+                              _scrollController.position.maxScrollExtent &&
+                          nextPageNo != null) {
+                        fetchMore!(opts);
+                      }
+                      return true;
+                    },
+                    child: ListView(
+                      controller: _scrollController,
+                      key: const PageStorageKey<String>('uniqueString'),
+                      children: <Widget>[
+                        for (var episode in episodesList)
+                          Card(
+                            child: ListTile(
+                              title: Text(
+                                episode['name'],
+                              ),
+                              subtitle: Text(episode['episode']),
+                              trailing: Text(episode['air_date']),
+                              onTap: () {
+                                final List<dynamic> charactersList = [
+                                  for (var character in episode['characters'])
+                                    character['id']
+                                ];
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CharactersPage(
+                                      episode: episode['episode'],
+                                      characters: charactersList,
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
-                        ),
-                      if (result.isLoading)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const <Widget>[
-                            CircularProgressIndicator(),
-                          ],
-                        ),
-                    ],
+                        if (result.isLoading)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const <Widget>[
+                              CircularProgressIndicator(),
+                            ],
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ],

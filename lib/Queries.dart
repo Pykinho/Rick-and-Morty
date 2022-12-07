@@ -10,6 +10,7 @@ const String fetchEpisodes = r'''
             name
             episode
             id
+            air_date
             characters {
               id
             }
