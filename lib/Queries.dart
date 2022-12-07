@@ -19,7 +19,7 @@ const String fetchEpisodes = r'''
       ''';
 
 const String fetchCharacters = r'''
-      query characters($characterIds:List){
+      query characters($characterIds:[ID!]!){
         charactersByIds(ids:$characterIds) 
             {
               name
