@@ -16,7 +16,22 @@ class _EpisodesPageState extends State<EpisodesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Rick and Morty episodes'),
+        title: const Text(
+          'Rick and Morty episodes',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        leading: Image.asset('assets/images/jerry.png'),
+        actions: [
+          Container(
+            width: 45,
+            child: Image.asset(
+              'assets/images/rickmorty.png',
+              fit: BoxFit.fill,
+            ),
+          ),
+        ],
       ),
       body: Query(
           options: QueryOptions(
@@ -32,7 +47,9 @@ class _EpisodesPageState extends State<EpisodesPage> {
 
             if (result.isLoading && result.data == null) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.yellow,
+                ),
               );
             }
 

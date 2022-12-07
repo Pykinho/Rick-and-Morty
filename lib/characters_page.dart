@@ -23,6 +23,15 @@ class _CharactersPageState extends State<CharactersPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Characters in ${widget.episode}'),
+          actions: [
+            Container(
+              width: 45,
+              child: Image.asset(
+                'assets/images/rickmorty.png',
+                fit: BoxFit.fill,
+              ),
+            ),
+          ],
         ),
         body: Query(
             options: QueryOptions(
@@ -38,7 +47,9 @@ class _CharactersPageState extends State<CharactersPage> {
 
               if (result.isLoading && result.data == null) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.yellow,
+                  ),
                 );
               }
 
@@ -61,7 +72,6 @@ class _CharactersPageState extends State<CharactersPage> {
                                 alignment: Alignment.topRight,
                               )
                             : const Text(''),
-
                         footer: Text(
                           character['name'],
                           style: const TextStyle(
@@ -92,12 +102,6 @@ class _CharactersPageState extends State<CharactersPage> {
                           character['image'],
                           fit: BoxFit.fill,
                         ),
-                        // leading: Image.network(character['image']),
-                        // title: Text(
-                        //   character['name'],
-                        // ),
-                        // subtitle: Text(character['species']),
-                        // trailing: Text(character['status']),
                       ),
                     ),
                 ],
