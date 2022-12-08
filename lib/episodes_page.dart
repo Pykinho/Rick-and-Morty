@@ -121,7 +121,9 @@ class _EpisodesPageState extends State<EpisodesPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const <Widget>[
-                              CircularProgressIndicator(),
+                              CircularProgressIndicator(
+                                backgroundColor: Colors.yellow,
+                              ),
                             ],
                           ),
                       ],
