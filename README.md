@@ -1,4 +1,4 @@
-# flutter development assignment
+# Rick and Morty flutter app
 
 Flutter application to display information about episodes and characters from the Rick and Morty TV series GraphQL API.
 
